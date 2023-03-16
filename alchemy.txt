@@ -1,0 +1,2 @@
+https://docs.alchemy.com/docs/interacting-with-a-smart-contract#step-1-install-web3-library
+https://dashboard.alchemy.com/

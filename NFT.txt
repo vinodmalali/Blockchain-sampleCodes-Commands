@@ -1,0 +1,133 @@
+// SPDX-License-Identifier: MIT
+pragma solidity >=0.7.0 <0.9.0;
+ 
+import "@openzeppelin/contracts@4.8.0/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts@4.8.0/token/ERC721/extensions/ERC721Enumerable.sol";
+import "@openzeppelin/contracts@4.8.0/access/Ownable.sol";
+import "@openzeppelin/contracts@4.8.0/utils/Counters.sol";
+ 
+contract MyToken is ERC721, ERC721Enumerable, Ownable {
+    using Strings for uint256;
+ 
+ 
+    Counters.Counter private _tokenIdCounter;
+ 
+    string public baseURI;
+    string public baseExtension = ".json";
+ 
+    event Attest(address indexed to, uint256 indexed tokenId);
+    event Revoke(address indexed to, uint256 indexed tokenId);
+ 
+  constructor() ERC721("Ulteamo", "SUN") {
+    setBaseURI("https://bafybeiauq5inxgbisyc6moxdwhpivp4ka5itfpcix6jdhdt7hxr7irvgwm.ipfs.w3s.link/");
+  }
+ 
+  function _baseURI() internal view virtual override returns (string memory) {
+    return baseURI;
+  }
+    address Employee1;
+    address Employee2;
+    address Employee3;
+ 
+    function setemp1(address emp1) public onlyOwner {
+        Employee1 = emp1;
+    }
+    function setemp2(address emp2) public onlyOwner {
+        Employee2 = emp2;
+    }
+    function setemp3(address emp3) public onlyOwner {
+        Employee3 = emp3;
+    }
+ 
+    modifier empOnly1() {
+        require(msg.sender == address(Employee1),"Employee only operation");
+        _;
+    } 
+    modifier empOnly2() {
+        require(msg.sender == address(Employee2),"Employee only operation");
+        _;
+    } 
+    modifier empOnly3() {
+        require(msg.sender == address(Employee3),"Employee only operation");
+        _;
+    }
+ 
+    // mint function
+ 
+    function mint(address _to) public payable empOnly1 {
+        _safeMint(_to, 1);
+ 
+    }
+    function mint2(address _to) public payable empOnly2 {
+        _safeMint(_to, 2);
+ 
+    }
+    function mint3(address _to) public payable empOnly3 {
+        _safeMint(_to, 3);
+ 
+    }
+ 
+    function setBaseURI(string memory _newBaseURI) public onlyOwner {
+    baseURI = _newBaseURI;
+  }
+ 
+    function tokenURI(uint256 tokenId)
+    public
+    view
+    virtual
+    override
+    returns (string memory)
+  {
+    require(
+      _exists(tokenId),
+      "ERC721Metadata: URI query for nonexistent token"
+    );
+ 
+    string memory currentBaseURI = _baseURI();
+    return bytes(currentBaseURI).length > 0
+        ? string(abi.encodePacked(currentBaseURI, tokenId.toString(), baseExtension))
+        : "";
+  }
+ 
+      // The following functions are overrides required by Solidity.
+ 
+    function _beforeTokenTransfer(address from, address to, uint256 tokenId, uint256 batchSize)
+        internal
+        override(ERC721, ERC721Enumerable)
+    {
+        super._beforeTokenTransfer(from, to, tokenId, batchSize);
+ 
+    }
+ 
+    function _afterTokenTransfer(address from, address to, uint256 tokenId) internal {
+        if (from == address(0)) {
+            emit Attest(to, tokenId);
+        } else if (to == address(0)) {
+            emit Revoke(to, tokenId);
+        }
+    }
+ 
+    function _burn(uint256 tokenId) internal override(ERC721) {
+        super._burn(tokenId);
+    }
+ 
+     function burn(uint256 tokenId) external {
+        require(ownerOf(tokenId) == msg.sender, "Only owner of the token can burn it");
+        _burn(tokenId);
+    }
+ 
+    function revoke(uint256 tokenId) external onlyOwner {
+        _burn(tokenId);
+    }
+ 
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        override(ERC721, ERC721Enumerable)
+        returns (bool)
+    {
+        return super.supportsInterface(interfaceId);
+    }
+ 
+ 
+}

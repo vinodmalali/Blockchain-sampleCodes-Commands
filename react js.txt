@@ -1,0 +1,81 @@
+upload metadata - penata and copy link , paste it in migration file
+
+*) penata provides -- ipfs
+
+IPFS -- IPFS is a distributed system for storing and accessing files, websites, applications, and data.
+
+goerli instaed develop - cmd
+
+web3
+
+https://www.freecodecamp.org/learn/front-end-development-libraries/
+
+
+React js
+---------
+
+DOM: DOM stands for 'Document Object Model'. In simple terms, it is a structured representation of the HTML elements that are present in a webpage or web-app.
+
+React Hooks are simple JavaScript functions that we can use to isolate the reusable part from a functional component
+
+useEffect : 
+
+The useEffect Hook allows you to perform side effects in your components.
+
+Some examples of side effects are: fetching data, directly updating the DOM, and timers.
+
+useEffect accepts two arguments. The second argument is optional.
+
+useEffect(<function>, <dependency>)
+
+useRef :
+
+The useRef is a hook that allows to directly create a reference to the DOM element in the functional component. 
+
+Syntax:
+
+const refContainer = useRef(initialValue);
+
+useState():
+
+The useState() is a Hook that allows you to have state variables in functional components . so basically useState is the ability to encapsulate local state in a functional component. 
+Syntax: The first element is the initial state and the second one is a function that is used for updating the state.
+
+const [state, setState] = useState(initialstate)
+
+
+function
+--------
+
+const Demo=()=>
+{
+  return <h1>Welcome to GeeksforGeeks</h1>;
+}
+ 
+export default Demo;
+
+
+Three.js
+------------
+Three.js is a Javascript library for creating 3D web graphics within the web browser created using WebGL.
+
+webGL : WebGL is a Javascript API that allows the browser to render 3D graphics
+
+
+
+npx create-react-app my-app
+cd my-app
+npm start
+
+youtube
+https://www.pragimtech.com/blog/reactjs/reactjs-introduction/
+
+0x6D6B68B7D08cf72057C3f7326E5547D0a4dBd285
+0xBd6938c3C217a29a8D094dF9442aBc5a9D28e3D6
+
+https://github.com/machadop1407
+
+https://github.com/dmalvia/React_Protected_Routes
+
+login and reg page -- https://github.com/ilyaszm/react-login-register-page.git
+

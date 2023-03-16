@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.7;
+
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol";
+
+contract Reward is ERC20 {
+
+    // uint256 pricePerToken = 1000000000000;
+    // uint256 amtTokenTogetService = 5000000000000000000;
+    address owner;
+    uint256 amtToken = 1000000000000000000;
+   // uint256 tokenSold;
+
+    constructor(uint256 _total) ERC20("sakha","SG") {
+         owner = msg.sender;
+        // owner = address(this);
+        _mint(owner, _total* 10 ** 18);
+    }
+
+    modifier onlyOwner() {
+        require(msg.sender == owner,"owner only operation");
+        _;
+    }
+
+    function sendTokens(address to) public     {
+        require(transferFrom(owner,to, amtToken), "Trasfer Failed");     
+    }
+
+
+ 
+}

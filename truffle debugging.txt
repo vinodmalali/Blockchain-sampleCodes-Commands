@@ -1,0 +1,6 @@
+npm install -g truffle
+
+truffle debug 0xf84b95a4746dcf2121e617c9bdf2e071cb18967d3f8f69845cad7d5651c0235d
+
+ganache --fork
+truffle debug --fetch-external 0x6373dea6ddcfa4a6a0e2c72395ccb70113394d12d5aee58b0f13629c

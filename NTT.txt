@@ -1,0 +1,56 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.7;
+
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol";
+
+contract SakhaGlobalToken is ERC721 {
+
+    uint tokenId = 1;
+    address owner;
+
+    constructor() ERC721("SakhaGlobal","SG") {
+        owner = msg.sender;
+        // _mint(msg.sender, _total);
+    }
+
+    modifier onlyOwner() {
+        require(msg.sender == owner,"owner only operation");
+        _;
+    }
+
+    mapping (address => uint) public getTokenId;
+
+    function mint(address adr) public {
+        uint b;
+        b = checkBal(adr);
+        require(b==0,"already minted");
+        _safeMint(adr,tokenId);
+        getTokenId[adr] = tokenId;
+        tokenId += 1;
+    }
+
+    function checkBal(address adr) internal view  returns (uint){
+       return balanceOf(adr);
+    } 
+
+    function burn(uint tId) public onlyOwner{
+        _burn(tId);
+    }
+    
+     function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 /* firstTokenId */,
+        uint256 batchSize
+    ) internal override  virtual {
+        require(from == address(0) || to == address(0), "can't be transfer");
+        
+    }
+    
+     function _afterTokenTransfer(address from, address to, uint256 firstTokenId, uint256 batchSize) internal override  virtual {
+
+     }
+
+    
+    
+}

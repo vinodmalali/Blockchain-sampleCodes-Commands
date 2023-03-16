@@ -1,0 +1,70 @@
+proxyContract.sol
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.7;
+
+
+contract MyContractProxy {
+  address public implementation;
+  uint public returnValue;
+
+  function upgrade(address _newImplementation) public {
+    implementation = _newImplementation;
+  }
+
+  
+
+  function setMyVar(uint _myVar) public returns (uint) {
+    address _impl = implementation;
+    require(_impl != address(0));
+
+    (bool success, bytes memory data) = _impl.delegatecall(abi.encodeWithSignature("setMyVar(uint256)", _myVar));
+    require(success, "setMyVar call failed");
+    returnValue = abi.decode(data, (uint));
+    emit MyVarSet(_myVar);
+    return returnValue;
+
+    
+  }
+
+  fallback()   external {
+    address _impl = implementation;
+    require(_impl != address(0));
+
+    assembly {
+      let ptr := mload(0x40)
+      calldatacopy(ptr, 0, calldatasize())
+      let result := delegatecall(gas(), _impl, ptr, calldatasize(), 0, 0)
+      let size := returndatasize()
+      returndatacopy(ptr, 0, size)
+
+      switch result
+      case 0 { revert(ptr, size) }
+      default { return(ptr, size) }
+    }
+  }
+
+  event MyVarSet(uint value);
+}
+
+
+-----------------------------------------------------------
+LogicContract.sol
+
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.7;
+
+
+// Implementation contract
+contract MyContractImpl {
+  uint public myVar;
+
+  function setMyVar(uint _myVar) public returns(uint) {
+    myVar = _myVar;
+    return myVar;
+  }
+
+  
+}
+

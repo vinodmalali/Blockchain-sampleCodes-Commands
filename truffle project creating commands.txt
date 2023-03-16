@@ -1,0 +1,15 @@
+ truffle init
+ npm init
+ npm install @openzeppelin/contracts
+ truffle console --network development
+ deploy
+
+
+ md app
+ cd app
+ npx lite-server
+
+
+ 
+
+truffle migrate --network matic --reset    
