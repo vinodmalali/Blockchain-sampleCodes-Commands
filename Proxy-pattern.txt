@@ -68,3 +68,76 @@ contract MyContractImpl {
   
 }
 
+-------------------------------------------------------------------------------------------------------------------------------------
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol";
+
+
+
+contract TokenProxy is ERC20 {
+    address public admin;
+    address public implementation;
+    uint256 public  amtToken ;
+
+  function upgrade(address _newImplementation) public {
+    implementation = _newImplementation;
+  }
+
+  mapping(address => bytes32) public addressTransactionMap;
+
+    constructor(uint256 _total) ERC20("ScholarToken","ST") {
+        admin = msg.sender;
+        _mint(admin, _total* 10 ** 18);
+    }
+
+    function sendTokens(address to) public     {
+        address _impl = implementation;
+        
+        (bool success, bytes memory data) = _impl.delegatecall(abi.encodeWithSignature("setAmtToken()"));
+        require(success, "setAmtToken call failed");
+        amtToken = abi.decode(data, (uint));
+        require(transferFrom(admin,to, amtToken), "Trasfer Failed");     
+    }
+
+    function storeTxs(address _adr,bytes32 _tx) public {
+          addressTransactionMap[_adr] = _tx;
+    }
+
+    fallback()   external {
+    address _impl = implementation;
+    require(_impl != address(0));
+
+    assembly {
+      let ptr := mload(0x40)
+      calldatacopy(ptr, 0, calldatasize())
+      let result := delegatecall(gas(), _impl, ptr, calldatasize(), 0, 0)
+      let size := returndatasize()
+      returndatacopy(ptr, 0, size)
+
+      switch result
+      case 0 { revert(ptr, size) }
+      default { return(ptr, size) }
+    }
+  }
+}
+
+-----------------------------------------------------------------------------------------------------------------
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.7;
+
+
+// Implementation contract
+contract MyContractImpl {
+  uint public amtToken;
+
+    function setAmtToken() external  returns (uint256){
+        amtToken = 2 * 10 ** 18;
+        return amtToken;
+    }
+
+  
+}
+
