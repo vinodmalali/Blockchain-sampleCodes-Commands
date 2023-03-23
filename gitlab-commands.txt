@@ -1,0 +1,11 @@
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+
+git status
+git checkout -b "dev"
+git add .
+git push origin dev
+git commit -m "Code uploded"
+
+
+
