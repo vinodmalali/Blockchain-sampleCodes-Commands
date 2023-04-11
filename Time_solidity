@@ -1,0 +1,39 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.7;
+
+contract Time{
+
+    function getTIME() public view returns (uint256){
+        return block.timestamp;
+    }
+
+}
+-----------------------------------------------------------------------------------------------------------------------
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.7;
+
+contract timer{
+
+    uint _start;
+    uint _end;
+
+    modifier timeOver{
+        require(block.timestamp<=_end, " The time is over");
+        _;
+    }
+
+    function start() public {
+
+        _start = block.timestamp ;
+    }
+
+    function end() public  {
+
+        _end = 1 days + _start;
+    }
+
+    function timeLeft() public view timeOver returns (uint){
+
+        return _end-block.timestamp;
+    }
+}
