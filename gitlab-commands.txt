@@ -7,5 +7,6 @@ git add .
 git push origin dev
 git commit -m "Code uploded"
 
+git checkout branch_name     to swith to the branch
 
 
