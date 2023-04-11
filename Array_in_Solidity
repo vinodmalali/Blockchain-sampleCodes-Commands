@@ -1,0 +1,136 @@
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.7;
+
+contract sumArrayEle{
+
+    uint[]  a;
+
+    function addValues(uint _val) public {
+
+        a.push(_val);
+
+    }
+
+    function count() public view returns (uint){
+        return a.length;
+    }
+
+    function printArrayEle() public view   returns (uint[] memory){
+
+        return a;
+      
+    }
+
+    function sum() public view returns (uint) {
+
+        uint s=0;
+
+        for(uint i=0;i<a.length;i++)
+        {
+            s=s+a[i];
+        }
+
+        return s;
+
+    }
+
+    function sort() public  returns (uint[] memory,uint){
+
+        uint temp;
+
+        for(uint i=0;i<a.length-1;i++)
+        {
+            for(uint j=0;j<a.length-1;j++)
+            {
+                if(a[j]>a[j+1])
+                {
+                    temp=a[j];
+                    a[j]=a[j+1];
+                    a[j+1]=temp;
+                }
+            }
+        }
+        return (a,a[a.length-1]);
+    }
+
+    function sort2(uint[] memory c) public pure returns (uint[] memory){
+
+        uint temp;
+
+        for(uint i=0;i<c.length-1;i++)
+        {
+            for(uint j=0;j<c.length-1;j++)
+            {
+                if(c[j]>c[j+1])
+                {
+                    temp=c[j];
+                    c[j]=c[j+1];
+                    c[j+1]=temp;
+                }
+            }
+        }
+        return (c);
+    }
+
+    function sort3() public pure  returns (uint[] memory){
+
+        uint[] memory b = new uint[](5);
+
+        b[0]=5;
+        b[1]=6;
+        b[2]=3;
+        b[3]=9;
+
+        uint temp;
+
+        for(uint i=0;i<b.length-1;i++)
+        {
+            for(uint j=0;j<b.length-1;j++)
+            {
+                if(b[j]>b[j+1])
+                {
+                    temp=b[j];
+                    b[j]=b[j+1];
+                    b[j+1]=temp;
+                }
+            }
+        }
+        return b;
+    }
+
+
+   // uint[]  b;
+
+    function anotherArray() public pure returns (uint[] memory){
+
+        uint[] memory b = new uint[](5);
+        
+        
+        b[0]=5;
+        b[1]=6;
+        b[2]=3;
+        b[3]=9;
+
+        return b;
+        
+
+    }
+
+    function extractEle() public view  returns (uint[] memory){
+
+        uint[] memory b = new uint[](a.length);
+
+            for (uint j=0;j<a.length-1;j++)
+            {
+                b[j]=a[j];
+            }
+
+        
+
+        return b;
+
+
+    }
+    
+ 
+}
